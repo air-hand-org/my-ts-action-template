@@ -22,7 +22,6 @@ jobs:
         id: release-please
         with:
           release-type: node
-          config-file: .github/release-please-config.json
 
       - name: get app information
         id: app-info
