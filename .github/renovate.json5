@@ -24,7 +24,7 @@
     }
   ],
   mise: {
-    fileMatch: [
+    managerFilePatterns: [
       '(^|/)\\.?mise\\.toml$',
       '(^|/)\\.?mise/config\\.toml$',
       '(^|/)\\.?mise/config.*\\.toml$'
