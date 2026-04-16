@@ -1,0 +1,27 @@
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  test:
+    uses: ./.github/workflows/_test.yml
+    permissions:
+      contents: read
+  lint:
+    uses: ./.github/workflows/_linter.yml
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+  check-dist:
+    uses: ./.github/workflows/_check-dist.yml
+    permissions:
+      contents: read
+  codeql:
+    uses: ./.github/workflows/_codeql-analysis.yml
+    permissions:
+      actions: read
+      checks: write
+      contents: read
+      security-events: write
