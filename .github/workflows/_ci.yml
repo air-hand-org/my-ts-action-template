@@ -14,6 +14,8 @@ jobs:
       contents: read
       packages: read
       statuses: write
+      issues: write
+      pull-requests: write
   check-dist:
     uses: ./.github/workflows/_check-dist.yml
     permissions:
