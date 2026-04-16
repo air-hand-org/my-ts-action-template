@@ -12,6 +12,8 @@ name: Check Transpiled JavaScript
 on:
   workflow_call:
 
+permissions: {}
+
 jobs:
   check-dist:
     name: Check dist/

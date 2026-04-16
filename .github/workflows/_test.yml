@@ -3,6 +3,8 @@ name: Continuous Integration
 on:
   workflow_call:
 
+permissions: {}
+
 jobs:
   test-typescript:
     name: TypeScript Tests
