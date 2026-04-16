@@ -1,7 +1,10 @@
 {
-  extends: ['github>aquaproj/aqua-renovate-config#2.6.0'],
+  extends: [
+    'github>aquaproj/aqua-renovate-config#2.6.0',
+    'helpers:pinGitHubActionDigests',
+  ],
   prConcurrentLimit: 10,
-  enabledManagers: ['custom.regex', 'mise'],
+  enabledManagers: ['custom.regex', 'mise', 'npm', 'github-actions'],
   labels: ['dependencies'],
   assigneesFromCodeOwners: true,
   packageRules: [
@@ -11,11 +14,13 @@
     },
     {
       matchUpdateTypes: ['minor'],
-      addLabels: ['minor']
+      addLabels: ['minor'],
+      automerge: true,
     },
     {
       matchUpdateTypes: ['patch'],
-      addLabels: ['patch']
+      addLabels: ['patch'],
+      automerge: true,
     }
   ],
   mise: {
@@ -24,5 +29,7 @@
       '(^|/)\\.?mise/config\\.toml$',
       '(^|/)\\.?mise/config.*\\.toml$'
     ]
-  }
+  },
+  rebaseWhen: "behind-base-branch",
+  minimumReleaseAge: "3 days",
 }
