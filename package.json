@@ -1,17 +1,17 @@
 {
-  "name": "typescript-action",
+  "name": "my-ts-action-template",
   "description": "GitHub Actions TypeScript template",
   "version": "0.0.0",
   "author": "",
   "type": "module",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/air-hand/my-ts-action-template",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/air-hand/my-ts-action-template.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/air-hand/my-ts-action-template/issues"
   },
   "keywords": [
     "actions"
@@ -20,7 +20,7 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "bundle": "npm run format:write && npm run package",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.5",
-    "@github/local-action": "^2.5.1",
+    "@github/local-action": "^7.0.1",
     "@jest/globals": "^29.7.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^16.0.0",
