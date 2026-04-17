@@ -19,7 +19,8 @@ jobs:
   check-dist:
     uses: ./.github/workflows/_check-dist.yml
     permissions:
-      contents: read
+      contents: write
+    secrets: inherit
   codeql:
     uses: ./.github/workflows/_codeql-analysis.yml
     permissions:
