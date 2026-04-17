@@ -60,41 +60,6 @@ jobs:
         id: build
         run: npm run all
 
-      - name: Sync gitIgnoredAuthors
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          RENOVATE_IGNORED_AUTHOR: "${{ env.APP_SLUG }}[bot] <${{ steps.app-info.outputs.app-user-id }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com>"
-        run: |
-          node <<'EOF'
-          const fs = require('fs');
-          const path = '.github/renovate.json5';
-          const author = process.env.RENOVATE_IGNORED_AUTHOR;
-          let text = fs.readFileSync(path, 'utf8');
-
-          const propRegex = /^\s*gitIgnoredAuthors\s*:\s*\[[\s\S]*?\],\n?/m;
-          if (propRegex.test(text)) {
-            const existing = text.match(propRegex)[0];
-            const values = [];
-            for (const match of existing.matchAll(/'([^']+)'|"([^"]+)"/g)) {
-              values.push(match[1] || match[2]);
-            }
-            if (!values.includes(author)) {
-              values.push(author);
-            }
-            const uniq = Array.from(new Set(values));
-            const next = `  gitIgnoredAuthors: [\n${uniq.map((v) => `    '${v}',`).join('\n')}\n  ],\n`;
-            text = text.replace(propRegex, next);
-          } else {
-            const addition = `  gitIgnoredAuthors: [\n    '${author}',\n  ],\n`;
-            if (text.includes('\n  rebaseWhen:')) {
-              text = text.replace('\n  rebaseWhen:', `\n${addition}  rebaseWhen:`);
-            } else {
-              text = text.replace(/\n}\s*$/, `\n${addition}}\n`);
-            }
-          }
-          fs.writeFileSync(path, text);
-          EOF
-
       - name: Detect File Changes
         id: diff
         run: |

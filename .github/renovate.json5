@@ -30,6 +30,9 @@
       '(^|/)\\.?mise/config.*\\.toml$'
     ]
   },
+  gitIgnoredAuthors: [
+    'air-hand-release-app[bot] <276784480+air-hand-release-app[bot]@users.noreply.github.com>',
+  ],
   rebaseWhen: "behind-base-branch",
   minimumReleaseAge: "3 days",
 }
