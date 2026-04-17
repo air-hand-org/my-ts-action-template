@@ -53,7 +53,7 @@
     "make-coverage-badge": "^1.2.0",
     "npm-check-updates": "^21.0.1",
     "rollup": "^4.31.0",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.4.9",
     "ts-jest-resolver": "^2.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.0"
