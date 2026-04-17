@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.4](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.3...v1.0.4) (2026-04-17)
+
+
+### Build System
+
+* **dist:** retitle bot PRs when check-dist updates generated files ([#99](https://github.com/air-hand-org/my-ts-action-template/issues/99)) ([3958444](https://github.com/air-hand-org/my-ts-action-template/commit/39584447ff504ffcad2a731ada1c8e74acc2d667))
+
+
+### Code Refactoring
+
+* **ci:** add PR title lint for squash merge workflow ([#95](https://github.com/air-hand-org/my-ts-action-template/issues/95)) ([f495126](https://github.com/air-hand-org/my-ts-action-template/commit/f495126b3f1e084a681a60b2b8ee6df16b0ebc6c))
+
 ## [1.0.3](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.2...v1.0.3) (2026-04-17)
 
 
