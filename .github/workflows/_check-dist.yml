@@ -11,6 +11,13 @@ name: Check Transpiled JavaScript
 
 on:
   workflow_call:
+    inputs:
+      gh_app_release_client_id:
+        required: true
+        type: string
+    secrets:
+      GH_APP_RELEASE_PRIVATE_KEY:
+        required: true
 
 permissions: {}
 
@@ -27,7 +34,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         with:
-          client-id: ${{ vars.GH_APP_RELEASE_CLIENT_ID }}
+          client-id: ${{ inputs.gh_app_release_client_id }}
           private-key: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
           permission-contents: write
 
@@ -44,7 +51,7 @@ jobs:
         id: checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Setup
@@ -75,9 +82,11 @@ jobs:
           BRANCH: ${{ github.head_ref }}
           GIT_USER_NAME: "${{ env.APP_SLUG }}[bot]"
           GIT_USER_EMAIL: "${{ steps.app-info.outputs.app-user-id }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git config user.name "${GIT_USER_NAME}"
           git config user.email "${GIT_USER_EMAIL}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add -A
           git commit -m "chore(ci): sync generated files"
           git push origin "HEAD:${BRANCH}"

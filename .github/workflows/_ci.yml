@@ -1,5 +1,12 @@
 on:
   workflow_call:
+    inputs:
+      gh_app_release_client_id:
+        required: true
+        type: string
+    secrets:
+      GH_APP_RELEASE_PRIVATE_KEY:
+        required: true
 
 permissions: {}
 
@@ -18,9 +25,12 @@ jobs:
       pull-requests: write
   check-dist:
     uses: ./.github/workflows/_check-dist.yml
+    with:
+      gh_app_release_client_id: ${{ inputs.gh_app_release_client_id }}
     permissions:
       contents: write
-    secrets: inherit
+    secrets:
+      GH_APP_RELEASE_PRIVATE_KEY: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
   codeql:
     uses: ./.github/workflows/_codeql-analysis.yml
     permissions:
