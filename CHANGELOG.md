@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/air-hand/my-ts-action-template/compare/v1.0.0...v1.0.1) (2026-04-17)
+
+
+### Bug Fixes
+
+* git config globally ([#61](https://github.com/air-hand/my-ts-action-template/issues/61)) ([a1e0a5a](https://github.com/air-hand/my-ts-action-template/commit/a1e0a5ad6f62458cd28dfd6c896b0e738670ed93))
+
 ## 1.0.0 (2026-04-17)
 
 
