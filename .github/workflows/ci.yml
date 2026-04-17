@@ -15,10 +15,14 @@ permissions: {}
 jobs:
   ci:
     uses: ./.github/workflows/_ci.yml
+    with:
+      gh_app_release_client_id: ${{ vars.GH_APP_RELEASE_CLIENT_ID }}
+    secrets:
+      GH_APP_RELEASE_PRIVATE_KEY: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
     permissions:
       actions: read
       checks: write
-      contents: read
+      contents: write
       packages: read
       security-events: write
       statuses: write

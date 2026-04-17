@@ -11,23 +11,48 @@ name: Check Transpiled JavaScript
 
 on:
   workflow_call:
+    inputs:
+      gh_app_release_client_id:
+        required: true
+        type: string
+    secrets:
+      GH_APP_RELEASE_PRIVATE_KEY:
+        required: true
 
 permissions: {}
 
 jobs:
   check-dist:
-    name: Check dist/
+    name: Check Generated Files
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: read
+      contents: write
 
     steps:
+      - name: Create GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          client-id: ${{ inputs.gh_app_release_client_id }}
+          private-key: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: get app information
+        id: app-info
+        run: |
+          echo "app-user-id=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)" >> "${GITHUB_OUTPUT}"
+          echo "APP_SLUG=${APP_SLUG}" >> "${GITHUB_ENV}"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+
       - name: Checkout
         id: checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Setup
         uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
@@ -38,29 +63,49 @@ jobs:
         id: install
         run: npm ci
 
-      - name: Build dist/ Directory
+      - name: Generate Files
         id: build
-        run: npm run bundle
+        run: npm run all
 
-      # This will fail the workflow if the `dist/` directory is different than
-      # expected.
-      - name: Compare Directories
+      - name: Detect File Changes
         id: diff
         run: |
-          if [ ! -d dist/ ]; then
-            echo "Expected dist/ directory does not exist.  See status below:"
-            ls -la ./
-            exit 1
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "has_changes=true" >> "${GITHUB_OUTPUT}"
+            exit 0
           fi
-          if [ "$(git diff --ignore-space-at-eol --text dist/ | wc -l)" -gt "0" ]; then
+          echo "has_changes=false" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit File Changes
+        if: ${{ steps.diff.outputs.has_changes == 'true' && github.event_name == 'pull_request' }}
+        env:
+          BRANCH: ${{ github.head_ref }}
+          GIT_USER_NAME: "${{ env.APP_SLUG }}[bot]"
+          GIT_USER_EMAIL: "${{ steps.app-info.outputs.app-user-id }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "${GIT_USER_NAME}"
+          git config user.email "${GIT_USER_EMAIL}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git add -A
+          git commit -m "chore(ci): sync generated files"
+          git push origin "HEAD:${BRANCH}"
+
+      # This will fail the workflow if generated files are different than
+      # expected.
+      - name: Compare Files
+        id: verify
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
             echo "Detected uncommitted changes after build. See status below:"
-            git diff --ignore-space-at-eol --text dist/
+            git status --short
+            git diff --ignore-space-at-eol --text
             exit 1
           fi
 
       # If `dist/` was different than expected, upload the expected version as a
       # workflow artifact.
-      - if: ${{ failure() && steps.diff.outcome == 'failure' }}
+      - if: ${{ failure() && steps.verify.outcome == 'failure' }}
         name: Upload Artifact
         id: upload
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

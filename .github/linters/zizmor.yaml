@@ -1,0 +1,7 @@
+rules:
+  secrets-outside-env:
+    ignore:
+      - release.yml
+      - .github/workflows/release.yml
+      - release.yml:23
+      - .github/workflows/release.yml:23

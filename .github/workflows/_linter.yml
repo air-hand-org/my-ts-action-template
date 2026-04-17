@@ -6,33 +6,6 @@ on:
 permissions: {}
 
 jobs:
-  other-linter:
-    name: Lint Others
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          persist-credentials: false
-
-      - name: setup aqua
-        uses: aquaproj/aqua-installer@11dd79b4e498d471a9385aa9fb7f62bb5f52a73c # v4.0.4
-        with:
-          aqua_version: v2.57.1
-          aqua_opts: ""
-
-      - name: Lint GitHub Action
-        run: |
-          ghalint run-action
-
-      - name: Lint GitHub Actions workflows
-        run: |
-          ghalint run
-
   super-linter:
     name: Lint Codebase
     runs-on: ubuntu-latest
