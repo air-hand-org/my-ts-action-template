@@ -3,9 +3,5 @@ rules:
     ignore:
       - release.yml
       - .github/workflows/release.yml
-      - release.yml:23
-      - .github/workflows/release.yml:23
       - update-prs.yml
       - .github/workflows/update-prs.yml
-      - update-prs.yml:25
-      - .github/workflows/update-prs.yml:25
