@@ -56,6 +56,7 @@ jobs:
       gh_app_release_client_id: ${{ inputs.gh_app_release_client_id }}
     permissions:
       contents: write
+      pull-requests: write
     secrets:
       GH_APP_RELEASE_PRIVATE_KEY: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
   codeql:

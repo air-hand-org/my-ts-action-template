@@ -28,6 +28,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Create GitHub App Token
@@ -37,6 +38,7 @@ jobs:
           client-id: ${{ inputs.gh_app_release_client_id }}
           private-key: ${{ secrets.GH_APP_RELEASE_PRIVATE_KEY }}
           permission-contents: write
+          permission-pull-requests: write
 
       - name: get app information
         id: app-info
@@ -88,8 +90,31 @@ jobs:
           git config user.email "${GIT_USER_EMAIL}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add -A
-          git commit -m "chore(ci): sync generated files"
+          git commit -m "build(dist): sync generated files"
           git push origin "HEAD:${BRANCH}"
+
+      - name: Retitle Bot PR to build(dist)
+        if: ${{ steps.diff.outputs.has_changes == 'true' && github.event_name == 'pull_request' && github.event.pull_request.user.type == 'Bot' }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          current_title="$(jq -r '.pull_request.title' "${GITHUB_EVENT_PATH}")"
+
+          if ! printf '%s' "${current_title}" | grep -Eq '^[a-z]+(\([^)]*\))?(!)?:[[:space:]]+'; then
+            exit 0
+          fi
+
+          new_title="$(printf '%s' "${current_title}" | sed -E 's/^[a-z]+(\([^)]*\))?(!)?:[[:space:]]+/build(dist): /')"
+
+          if [ "${current_title}" = "${new_title}" ]; then
+            exit 0
+          fi
+
+          gh api \
+            --method PATCH \
+            "/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" \
+            -f "title=${new_title}"
 
       # This will fail the workflow if generated files are different than
       # expected.
