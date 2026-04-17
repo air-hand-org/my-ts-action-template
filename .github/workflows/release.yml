@@ -46,8 +46,8 @@ jobs:
 
       - name: config git user
         run: |
-          git config user.name "${GIT_USER_NAME}"
-          git config user.email "${GIT_USER_EMAIL}"
+          git config --global user.name "${GIT_USER_NAME}"
+          git config --global user.email "${GIT_USER_EMAIL}"
         env:
           GIT_USER_NAME: "${{ env.APP_SLUG }}[bot]"
           GIT_USER_EMAIL: "${{ steps.app-info.outputs.app-user-id }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
