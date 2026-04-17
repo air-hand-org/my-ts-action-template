@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.2...v1.0.3) (2026-04-17)
+
+
+### Code Refactoring
+
+* **release:** switch to manifest config and include build/refactor sections ([#93](https://github.com/air-hand-org/my-ts-action-template/issues/93)) ([ecc69dd](https://github.com/air-hand-org/my-ts-action-template/commit/ecc69dd0d5fbd6ec41e1c160d893a3cd24e830b2))
+
 ## [1.0.2](https://github.com/air-hand/my-ts-action-template/compare/v1.0.1...v1.0.2) (2026-04-17)
 
 
