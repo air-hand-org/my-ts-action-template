@@ -36,3 +36,13 @@ jobs:
         uses: super-linter/super-linter/slim@9e863354e3ff62e0727d37183162c4a88873df41 # v8.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENABLE_GITHUB_PULL_REQUEST_SUMMARY_COMMENT: false
+          SAVE_SUPER_LINTER_SUMMARY: true
+          ENABLE_GITHUB_ACTIONS_STEP_SUMMARY: false
+
+      - name: Update sticky PR comment
+        if: always() && github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3.0.3
+        with:
+          header: super-linter-report
+          path: ${{ github.workspace }}/super-linter-output/super-linter-summary.md
