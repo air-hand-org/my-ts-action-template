@@ -9,6 +9,18 @@
   assigneesFromCodeOwners: true,
   packageRules: [
     {
+      groupName: 'jest monorepo',
+      groupSlug: 'jest-monorepo',
+      matchManagers: ['npm'],
+      matchPackageNames: [
+        'jest',
+        '@jest/globals',
+        '@types/jest',
+        'ts-jest',
+        'ts-jest-resolver',
+      ],
+    },
+    {
       matchSourceUrls: [
         'https://github.com/air-hand-org/**',
         'https://github.com/actions/**',
