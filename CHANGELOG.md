@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.4...v1.0.5) (2026-04-17)
+
+
+### Build System
+
+* **dist:** update dependency typescript to v6 ([#83](https://github.com/air-hand-org/my-ts-action-template/issues/83)) ([22c7887](https://github.com/air-hand-org/my-ts-action-template/commit/22c7887a64a726acd9edee5900efe68555d73488))
+
 ## [1.0.4](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.3...v1.0.4) (2026-04-17)
 
 
