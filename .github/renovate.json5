@@ -9,6 +9,13 @@
   assigneesFromCodeOwners: true,
   packageRules: [
     {
+      matchSourceUrls: [
+        'https://github.com/air-hand-org/**',
+        'https://github.com/actions/**',
+      ],
+      minimumReleaseAge: '0 days',
+    },
+    {
       matchUpdateTypes: ['major'],
       addLabels: ['major']
     },
@@ -32,7 +39,7 @@
   },
   // Ignore CI commits from the release app so Renovate keeps rebasing/updating its PR branches.
   gitIgnoredAuthors: [
-    'air-hand-release-app[bot] <276784480+air-hand-release-app[bot]@users.noreply.github.com>',
+    '276784480+air-hand-release-app[bot]@users.noreply.github.com',
   ],
   rebaseWhen: "behind-base-branch",
   minimumReleaseAge: "3 days",
