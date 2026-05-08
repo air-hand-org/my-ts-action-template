@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.5...v1.0.6) (2026-05-08)
+
+
+### Build System
+
+* **dist:** update dependency rollup to v4.60.3 ([#118](https://github.com/air-hand-org/my-ts-action-template/issues/118)) ([bdf6599](https://github.com/air-hand-org/my-ts-action-template/commit/bdf659900186a25a89e03de3197b2636670e3c63))
+
 ## [1.0.5](https://github.com/air-hand-org/my-ts-action-template/compare/v1.0.4...v1.0.5) (2026-04-17)
 
 
