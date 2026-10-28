@@ -46,7 +46,6 @@ need to perform some initial setup steps before you can develop your action.
 > the correct version when you `cd` into the repository. Additionally, this
 > `.node-version` file is used by GitHub Actions in any `actions/setup-node`
 > actions.
-
 1. :hammer_and_wrench: Install the dependencies
 
    ```bash
